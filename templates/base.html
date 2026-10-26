@@ -48,9 +48,9 @@
     </form>
 
     <div class="topbar-right">
-      <div class="progress-chip" id="progressChip" title="{{ progress.done }} of {{ progress.total }} questions complete">
+      <div class="progress-chip" id="progressChip" data-progress-chip title="{{ progress.done }} of {{ progress.total }} questions complete">
         <div class="progress-track"><span style="width: {{ progress.percent }}%"></span></div>
-        <span>{{ progress.done }} / {{ progress.total }}</span>
+        <span data-progress-label>{{ progress.done }} / {{ progress.total }}</span>
       </div>
     </div>
   </header>
@@ -72,7 +72,7 @@
       <div class="sidebar-meta">
         <span><strong>{{ units|length }}</strong> units</span>
         <span><strong>{{ progress.total }}</strong> questions</span>
-        <span><strong>{{ progress.done }}</strong> done</span>
+        <span><strong data-sidebar-done>{{ progress.done }}</strong> done</span>
       </div>
 
       <nav class="unit-list" aria-label="Homework units">

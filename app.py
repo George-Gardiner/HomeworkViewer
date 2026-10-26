@@ -1,11 +1,12 @@
 """Local BC Calculus homework viewer.
 
-The application is intentionally simple: Flask renders HTML on the server,
-progress is stored in a small JSON file, and the only browser JavaScript is a
-small progressive-enhancement script that adds pinch-to-zoom to the textbook
-page viewer. Everything still works when JavaScript is unavailable.
+``build_site.py`` is the primary entry point. It renders a standalone copy of
+the viewer into ``site/`` that can be opened directly from disk, with progress
+and search handled in the browser. No server is needed for normal use.
 
-Run ``python app.py`` after installing the requirements. If the PDFs change,
+This Flask app remains available as a development server and as the renderer
+used by the static builder. Server progress is stored in ``data/progress.json``;
+static-site progress is stored in the browser. If the PDFs change,
 ``build_data.py`` regenerates the page index and textbook page images.
 """
 

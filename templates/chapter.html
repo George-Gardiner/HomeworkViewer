@@ -35,7 +35,7 @@
         {% if page_info.worksheet %}
           <span class="stat-pill"><svg><use href="#i-spark"></use></svg>Worksheet</span>
         {% endif %}
-        <span class="stat-pill"><svg><use href="#i-check"></use></svg>{{ done_total }}/{{ chapter.questions|length }} done</span>
+        <span class="stat-pill" data-chapter-progress><svg><use href="#i-check"></use></svg><span data-chapter-progress-text>{{ done_total }}/{{ chapter.questions|length }} done</span></span>
       </div>
 
       {% for test in unit.tests %}
@@ -56,7 +56,7 @@
               {% set ns.last_page = page %}
             {% endif %}
 
-            <div class="q-card{% if question.id == selected_question_id %} is-active{% endif %}{% if is_done(question.id) %} is-done{% endif %}" id="q-{{ question.id }}">
+            <div class="q-card{% if question.id == selected_question_id %} is-active{% endif %}{% if is_done(question.id) %} is-done{% endif %}" id="q-{{ question.id }}" data-question-id="{{ question.id }}">
               <a class="q-num" href="{{ question_path(question, chapter) }}">{{ label }}</a>
               <a class="q-body" href="{{ question_path(question, chapter) }}">
                 <span class="q-title-row">
@@ -77,7 +77,7 @@
                   <span class="q-snippet">Open the textbook page to read this problem.</span>
                 {% endif %}
               </a>
-              <form class="q-done-form" method="post" action="{{ url_for('toggle_question', question_id=question.id) }}">
+              <form class="q-done-form" method="post" data-question-id="{{ question.id }}" action="{{ url_for('toggle_question', question_id=question.id) }}">
                 <input type="hidden" name="next" value="{{ list_return_url }}#q-{{ question.id }}">
                 <button class="q-done-toggle" type="submit"
                         aria-pressed="{{ 'true' if is_done(question.id) else 'false' }}"
@@ -225,13 +225,13 @@
         <span class="zoom-hint" id="zoomHint" hidden> · Pinch to zoom, double-click to fit</span>
       </span>
       {% if question %}
-        <form method="post" action="{{ url_for('toggle_question', question_id=question.id) }}">
+        <form method="post" data-question-id="{{ question.id }}" action="{{ url_for('toggle_question', question_id=question.id) }}">
           <input type="hidden" name="next" value="{{ return_url }}">
           <button class="done-btn{% if is_done(question.id) %} is-done{% endif %}" type="submit"
                   aria-pressed="{{ 'true' if is_done(question.id) else 'false' }}"
                   title="{{ 'Mark as not complete' if is_done(question.id) else 'Mark complete' }}">
             <span class="done-box"><svg><use href="#i-check"></use></svg></span>
-            <span>{{ "Completed" if is_done(question.id) else "Mark complete" }}</span>
+            <span class="done-btn-label">{{ "Completed" if is_done(question.id) else "Mark complete" }}</span>
           </button>
         </form>
       {% else %}
