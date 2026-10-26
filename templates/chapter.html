@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+{% block title %}{% if chapter.code and chapter.code != "—" %}{{ chapter.code }} {% endif %}{{ chapter.title }}{% endblock %}
+
+{% block content %}
+  {% set page_info = chapter_pages(chapter) %}
+  {% set question_pages = distinct_question_pages(chapter) %}
+  {% set should_group = question_pages|length > 1 %}
+  {% set done_total = chapter_done(chapter) %}
+
+  <section class="questions-pane" id="questionsPane">
+    <div class="chapter-view">
+      <div class="crumbs">
+        <span>Unit {{ unit.number }}</span>
+        <svg><use href="#i-chevron"></use></svg>
+        <span>Chapter {{ chapter.number or chapter.code }}</span>
+      </div>
+
+      <div class="chapter-kicker">
+        <span class="unit-kicker">Unit {{ unit.number }} · Chapter {{ chapter.number or chapter.code }}</span>
+        <span class="code-pill">{{ chapter.code or "—" }}</span>
+      </div>
+      <h1 class="chapter-title">{{ chapter.title }}</h1>
+      {% if chapter.schedule_title and chapter.schedule_title != chapter.title %}
+        <p class="book-title">Scheduled as: {{ chapter.schedule_title }}</p>
+      {% elif chapter.book_title %}
+        <p class="book-title">Textbook: {{ chapter.book_title }}</p>
+      {% else %}
+        <p class="book-title">From the assignment sheet</p>
+      {% endif %}
+
+      <div class="chapter-stats">
+        {% for page in page_info.pages %}
+          <span class="stat-pill"><svg><use href="#i-page"></use></svg>p. {{ page }}</span>
+        {% endfor %}
+        {% if page_info.worksheet %}
+          <span class="stat-pill"><svg><use href="#i-spark"></use></svg>Worksheet</span>
+        {% endif %}
+        <span class="stat-pill"><svg><use href="#i-check"></use></svg>{{ done_total }}/{{ chapter.questions|length }} done</span>
+      </div>
+
+      {% for test in unit.tests %}
+        <div class="test-pill"><svg><use href="#i-spark"></use></svg><span>{{ test }}</span></div>
+      {% endfor %}
+      {% for note in chapter.notes %}
+        <p class="note-pill"><strong>Note:</strong> {{ note }}</p>
+      {% endfor %}
+
+      {% if chapter.questions %}
+        {% set ns = namespace(last_page=None) %}
+        <div class="question-list">
+          {% for question in chapter.questions %}
+            {% set page = question.pageInfo.printedPage if question.pageInfo else question.page %}
+            {% set label = question.label or question.number or "Problem" %}
+            {% if should_group and page != ns.last_page %}
+              <div class="page-group-head"><span>p. {{ page or "—" }}</span></div>
+              {% set ns.last_page = page %}
+            {% endif %}
+
+            <div class="q-card{% if question.id == selected_question_id %} is-active{% endif %}{% if is_done(question.id) %} is-done{% endif %}" id="q-{{ question.id }}">
+              <a class="q-num" href="{{ question_path(question, chapter) }}">{{ label }}</a>
+              <a class="q-body" href="{{ question_path(question, chapter) }}">
+                <span class="q-title-row">
+                  <span class="q-title">Question {{ label }}</span>
+                  {% if question.calculator %}
+                    <span class="badge calc"><svg><use href="#i-calc"></use></svg>Calc</span>
+                  {% endif %}
+                  {% if question.parts %}
+                    <span class="badge parts">Parts {{ question.parts|join(" ") }}</span>
+                  {% endif %}
+                  {% if question.range %}
+                    <span class="badge range">from {{ question.range }}</span>
+                  {% endif %}
+                </span>
+                {% if question.snippet %}
+                  <span class="q-snippet">{{ question.snippet }}</span>
+                {% else %}
+                  <span class="q-snippet">Open the textbook page to read this problem.</span>
+                {% endif %}
+              </a>
+              <form class="q-done-form" method="post" action="{{ url_for('toggle_question', question_id=question.id) }}">
+                <input type="hidden" name="next" value="{{ list_return_url }}#q-{{ question.id }}">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="{{ 'true' if is_done(question.id) else 'false' }}"
+                        aria-label="{{ 'Mark as not complete' if is_done(question.id) else 'Mark complete' }}"
+                        title="{{ 'Mark as not complete' if is_done(question.id) else 'Mark complete' }}">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state" style="min-height:260px; padding:30px 12px 10px;">
+          <span class="empty-mark">✎</span>
+          {% if page_info.worksheet %}
+            <h2>Worksheet assignment</h2>
+            <p>This chapter uses a worksheet or activity from class, so there is no textbook exercise set to show.</p>
+          {% else %}
+            <h2>No homework listed</h2>
+            <p>This chapter is covered in class, but the assignment sheet does not list textbook problems for it.</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="viewer" aria-label="Textbook page viewer">
+    <div class="viewer-toolbar">
+      <div class="viewer-title">
+        <span class="page-pill">
+          {% if question %}
+            Page {{ question.pageInfo.printedPage if question.pageInfo else (question.page or "—") }}
+          {% else %}
+            Page —
+          {% endif %}
+        </span>
+        <strong>
+          {% if question %}
+            Question {{ question.label or question.number }}{% if chapter.code and chapter.code != "—" %} · {{ chapter.code }}{% endif %}
+          {% elif chapter.questions %}
+            Select a question
+          {% elif page_info.worksheet %}
+            Worksheet
+          {% else %}
+            No homework listed
+          {% endif %}
+        </strong>
+      </div>
+      <div class="viewer-actions">
+        {% if question and question.pageInfo %}
+          <div class="zoom-controls" id="zoomControls" hidden>
+            <button class="tool-btn zoom-step" type="button" id="zoomOut" title="Zoom out" aria-label="Zoom out">&minus;</button>
+            <button class="zoom-level" type="button" id="zoomLevel" title="Fit page width">100%</button>
+            <button class="tool-btn zoom-step" type="button" id="zoomIn" title="Zoom in" aria-label="Zoom in">+</button>
+            <span class="tool-sep"></span>
+          </div>
+        {% endif %}
+        {% if previous_url %}
+          <a class="tool-btn" href="{{ previous_url }}" title="Previous question" aria-label="Previous question">
+            <svg><use href="#i-left"></use></svg>
+          </a>
+        {% else %}
+          <span class="tool-btn is-disabled" aria-disabled="true"><svg><use href="#i-left"></use></svg></span>
+        {% endif %}
+        {% if next_url %}
+          <a class="tool-btn" href="{{ next_url }}" title="Next question" aria-label="Next question">
+            <svg><use href="#i-right"></use></svg>
+          </a>
+        {% else %}
+          <span class="tool-btn is-disabled" aria-disabled="true"><svg><use href="#i-right"></use></svg></span>
+        {% endif %}
+        {% if question and question.pageInfo %}
+          <span class="tool-sep"></span>
+          <a class="tool-btn" href="{{ url_for('static', filename=question.pageInfo.image) }}"
+             target="_blank" rel="noopener" title="Open the full-size page image" aria-label="Open the full-size page image">
+            <svg><use href="#i-external"></use></svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if question and question.pageInfo %}
+      <div class="page-scroll" id="pageScroll">
+        <div class="page-shell">
+          <img src="{{ url_for('static', filename=question.pageInfo.image) }}"
+               width="{{ question.pageInfo.width }}" height="{{ question.pageInfo.height }}"
+               alt="Textbook page {{ question.pageInfo.printedPage }}" loading="eager" draggable="false">
+          {% if question.anchor %}
+            <div class="page-highlight" id="page-highlight"
+                 style="left: {{ question.anchor.x * 100 }}%; top: {{ question.anchor.y * 100 }}%; width: {{ question.anchor.w * 100 }}%; height: {{ question.anchor.h * 100 }}%;"></div>
+          {% endif %}
+          {% if question.marker %}
+            <div class="page-marker"
+                 style="left: {{ question.marker.x * 100 }}%; top: {{ question.marker.y * 100 }}%; width: {{ question.marker.w * 100 }}%; height: {{ question.marker.h * 100 }}%;"></div>
+          {% endif %}
+        </div>
+      </div>
+    {% elif question %}
+      <div class="page-scroll">
+        <div class="viewer-empty">
+          <div class="viewer-empty-art"><svg><use href="#i-page"></use></svg></div>
+          <h2>Worksheet assignment</h2>
+          <p>There is no textbook page for this problem. Use the assignment sheet or your class worksheet.</p>
+        </div>
+      </div>
+    {% else %}
+      <div class="page-scroll">
+        <div class="viewer-empty">
+          <div class="viewer-empty-art"><svg><use href="#i-page"></use></svg></div>
+          <h2>
+            {% if chapter.questions %}Pick a question
+            {% elif page_info.worksheet %}Worksheet assignment
+            {% else %}No homework listed{% endif %}
+          </h2>
+          <p>
+            {% if chapter.questions %}
+              Choose a problem and its textbook page will appear here with the question highlighted.
+            {% elif page_info.worksheet %}
+              This chapter uses a class worksheet, so there is no textbook page to display.
+            {% else %}
+              The assignment sheet does not list textbook problems for this chapter.
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="viewer-foot">
+      <span>
+        {% if question and question.pageInfo %}
+          {% if question.anchor %}
+            Highlighted on textbook page {{ question.pageInfo.printedPage }}.
+          {% else %}
+            Showing textbook page {{ question.pageInfo.printedPage }}.
+          {% endif %}
+        {% elif question %}
+          This question has no textbook page.
+        {% elif chapter.questions %}
+          Choose a problem to open its textbook page.
+        {% elif page_info.worksheet %}
+          This chapter uses a class worksheet.
+        {% else %}
+          No textbook problems are listed for this chapter.
+        {% endif %}
+        <span class="zoom-hint" id="zoomHint" hidden> · Pinch to zoom, double-click to fit</span>
+      </span>
+      {% if question %}
+        <form method="post" action="{{ url_for('toggle_question', question_id=question.id) }}">
+          <input type="hidden" name="next" value="{{ return_url }}">
+          <button class="done-btn{% if is_done(question.id) %} is-done{% endif %}" type="submit"
+                  aria-pressed="{{ 'true' if is_done(question.id) else 'false' }}"
+                  title="{{ 'Mark as not complete' if is_done(question.id) else 'Mark complete' }}">
+            <span class="done-box"><svg><use href="#i-check"></use></svg></span>
+            <span>{{ "Completed" if is_done(question.id) else "Mark complete" }}</span>
+          </button>
+        </form>
+      {% else %}
+        <button class="done-btn" type="button" disabled>
+          <span class="done-box"><svg><use href="#i-check"></use></svg></span>
+          <span>Mark complete</span>
+        </button>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='viewer.js') }}" defer></script>
+{% endblock %}

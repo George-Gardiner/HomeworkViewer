@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Not found{% endblock %}
+
+{% block content %}
+  <section class="questions-pane search-pane">
+    <div class="chapter-view search-view">
+      <div class="empty-state">
+        <span class="empty-mark">404</span>
+        <h2>That page isn't here</h2>
+        <p>The unit, section, or question link doesn't match the current assignment data.</p>
+        <div class="empty-actions">
+          <a class="btn" href="{{ url_for('home') }}">Return to homework</a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

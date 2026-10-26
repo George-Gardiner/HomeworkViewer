@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Search{% if query %} · {{ query }}{% endif %}{% endblock %}
+{% block content_class %}content-single{% endblock %}
+
+{% block content %}
+  <section class="questions-pane search-pane">
+    <div class="chapter-view search-view">
+      <div class="crumbs">
+        <span>Search</span>
+        <svg><use href="#i-chevron"></use></svg>
+        <span>{{ meta.course }}</span>
+      </div>
+
+      {% if query %}
+        <div class="chapter-kicker">
+          <span class="unit-kicker">Results for</span>
+          <span class="code-pill">“{{ query }}”</span>
+        </div>
+        <h1 class="chapter-title">{{ total_results }} match{{ "" if total_results == 1 else "es" }}</h1>
+        <p class="book-title">
+          Search across unit descriptions, chapter titles, question numbers, and textbook snippets.
+          {% if shown_results < total_results %}
+            Showing the first {{ shown_results }}.
+          {% endif %}
+        </p>
+      {% else %}
+        <div class="chapter-kicker">
+          <span class="unit-kicker">Find homework</span>
+        </div>
+        <h1 class="chapter-title">Search the assignment plan</h1>
+        <p class="book-title">Try a unit number, chapter code, page number, question number, or a word from a problem.</p>
+      {% endif %}
+
+      {% if not query %}
+        <div class="empty-state search-empty-state">
+          <span class="empty-mark">∫</span>
+          <h2>What are you looking for?</h2>
+          <p>Use the search field above or browse the units in the sidebar.</p>
+        </div>
+      {% elif total_results == 0 %}
+        <div class="empty-state search-empty-state">
+          <span class="empty-mark">∅</span>
+          <h2>No matches</h2>
+          <p>Try a shorter query, or browse the units in the sidebar.</p>
+        </div>
+      {% else %}
+        {% for group, label in [("units", "Units"), ("chapters", "Chapters"), ("questions", "Questions")] %}
+          {% if results[group] %}
+            <div class="result-group">
+              <h2 class="result-group-title">{{ label }} <span>{{ results[group]|length }}</span></h2>
+              <div class="result-list">
+                {% for item in results[group] %}
+                  <a class="search-result" href="{{ item.url }}">
+                    <span class="result-mark">{{ item.mark }}</span>
+                    <span class="result-text">
+                      <strong>{{ item.title }}</strong>
+                      <small>{{ item.sub }}</small>
+                    </span>
+                    <span class="result-kind">{{ item.kind }}</span>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
