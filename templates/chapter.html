@@ -38,6 +38,38 @@
         <span class="stat-pill" data-chapter-progress><svg><use href="#i-check"></use></svg><span data-chapter-progress-text>{{ done_total }}/{{ chapter.questions|length }} done</span></span>
       </div>
 
+      {% if chapter.questions or show_unit_bulk %}
+        <div class="bulk-bar" aria-label="Mark all questions complete">
+          <span class="bulk-bar-label">Mark all:</span>
+          {% if chapter.questions %}
+            <form class="bulk-form" method="post"
+                  action="{{ url_for('bulk_progress', scope='chapter', target=chapter.id) }}"
+                  data-bulk-scope="chapter" data-bulk-target="{{ chapter.id }}"
+                  data-bulk-name="this chapter">
+              <input type="hidden" name="next" value="{{ return_url }}">
+              <button class="bulk-btn{% if chapter_all_done %} is-done{% endif %}" type="submit"
+                      title="{{ 'Mark all questions in this chapter as not complete' if chapter_all_done else 'Mark all questions in this chapter complete' }}">
+                <svg><use href="#i-check"></use></svg>
+                <span data-bulk-label>{{ "Clear" if chapter_all_done else "Complete" }} this chapter</span>
+              </button>
+            </form>
+          {% endif %}
+          {% if show_unit_bulk %}
+            <form class="bulk-form" method="post"
+                  action="{{ url_for('bulk_progress', scope='unit', target=unit.number) }}"
+                  data-bulk-scope="unit" data-bulk-target="{{ unit.number }}"
+                  data-bulk-name="Unit {{ unit.number }}">
+              <input type="hidden" name="next" value="{{ return_url }}">
+              <button class="bulk-btn{% if unit_all_done %} is-done{% endif %}" type="submit"
+                      title="{{ 'Mark all questions in Unit ' ~ unit.number ~ ' as not complete' if unit_all_done else 'Mark all questions in Unit ' ~ unit.number ~ ' complete' }}">
+                <svg><use href="#i-check"></use></svg>
+                <span data-bulk-label>{{ "Clear" if unit_all_done else "Complete" }} Unit {{ unit.number }}</span>
+              </button>
+            </form>
+          {% endif %}
+        </div>
+      {% endif %}
+
       {% for test in unit.tests %}
         <div class="test-pill"><svg><use href="#i-spark"></use></svg><span>{{ test }}</span></div>
       {% endfor %}

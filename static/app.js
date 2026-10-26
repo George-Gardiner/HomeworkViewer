@@ -18,6 +18,10 @@
   const QUESTION_IDS = Array.isArray(window.QUESTION_IDS)
     ? window.QUESTION_IDS
     : [];
+  const SCOPE_QUESTIONS =
+    window.SCOPE_QUESTIONS && typeof window.SCOPE_QUESTIONS === "object"
+      ? window.SCOPE_QUESTIONS
+      : {};
   const VALID_IDS = new Set(QUESTION_IDS);
   const TOTAL_QUESTIONS = QUESTION_IDS.length;
 
@@ -83,6 +87,54 @@
     return count;
   }
 
+  function scopeIds(scope, target) {
+    const group = SCOPE_QUESTIONS[scope];
+    if (!group || target == null) return [];
+    const ids = group[String(target)];
+    if (!Array.isArray(ids)) return [];
+    return ids.filter(
+      (id) => typeof id === "string" && (!VALID_IDS.size || VALID_IDS.has(id))
+    );
+  }
+
+  function scopeComplete(ids) {
+    return ids.length > 0 && ids.every((id) => done.has(id));
+  }
+
+  function updateBulkButtons() {
+    for (const form of document.querySelectorAll("form[data-bulk-scope]")) {
+      const ids = scopeIds(form.dataset.bulkScope, form.dataset.bulkTarget);
+      const complete = scopeComplete(ids);
+      const button = form.querySelector(".bulk-btn");
+      if (!button) continue;
+
+      const name = form.dataset.bulkName || "all questions";
+      const action = complete ? "Clear" : "Complete";
+      const label = button.querySelector("[data-bulk-label]");
+      const title = complete
+        ? `Mark all questions in ${name} as not complete`
+        : `Mark all questions in ${name} complete`;
+
+      if (label) label.textContent = `${action} ${name}`;
+      button.classList.toggle("is-done", complete);
+      button.title = title;
+      button.setAttribute("aria-label", title);
+    }
+  }
+
+  function toggleScope(scope, target) {
+    const ids = scopeIds(scope, target);
+    if (!ids.length) return;
+
+    const complete = scopeComplete(ids);
+    for (const id of ids) {
+      if (complete) done.delete(id);
+      else done.add(id);
+    }
+    persistProgress();
+    updateProgress();
+  }
+
   function updateProgress() {
     const total = TOTAL_QUESTIONS;
     const complete = doneCount();
@@ -135,6 +187,8 @@
       }
       chapterText.textContent = `${chapterDone}/${cards.length} done`;
     }
+
+    updateBulkButtons();
   }
 
   function toggleQuestion(questionId) {
@@ -458,6 +512,13 @@
     updateProgress();
 
     document.addEventListener("submit", (event) => {
+      const bulkForm = event.target.closest("form[data-bulk-scope]");
+      if (bulkForm) {
+        event.preventDefault();
+        toggleScope(bulkForm.dataset.bulkScope, bulkForm.dataset.bulkTarget);
+        return;
+      }
+
       const form = event.target.closest("form[data-question-id]");
       if (!form) return;
       event.preventDefault();

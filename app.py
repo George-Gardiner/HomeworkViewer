@@ -58,6 +58,7 @@ QUESTIONS: dict[str, tuple[dict[str, Any], dict[str, Any], dict[str, Any]]] = {}
 FLAT_QUESTIONS: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]] = []
 QUESTION_POSITION: dict[str, int] = {}
 FLAT_CHAPTERS: list[tuple[dict[str, Any], dict[str, Any]]] = []
+UNITS: dict[str, dict[str, Any]] = {}
 
 PROGRESS_LOCK = threading.Lock()
 PROGRESS: set[str] = set()
@@ -102,8 +103,10 @@ def load_data() -> None:
     FLAT_QUESTIONS.clear()
     QUESTION_POSITION.clear()
     FLAT_CHAPTERS.clear()
+    UNITS.clear()
 
     for unit in DATA.get("units", []):
+        UNITS[str(unit["number"])] = unit
         for chapter in unit.get("chapters", []):
             chapter["_unit_number"] = unit["number"]
             CHAPTERS[chapter["id"]] = (unit, chapter)
@@ -145,6 +148,37 @@ def is_done(question_id: str) -> bool:
 
 def chapter_done(chapter: dict[str, Any]) -> int:
     return sum(1 for question in chapter.get("questions", []) if is_done(question["id"]))
+
+
+def scope_question_ids(scope: str, target: str) -> list[str]:
+    """Question ids in a chapter or unit, used by the bulk progress actions."""
+    if scope == "chapter":
+        entry = CHAPTERS.get(target)
+        if not entry:
+            return []
+        return [question["id"] for question in entry[1].get("questions", [])]
+
+    if scope == "unit":
+        unit = UNITS.get(str(target))
+        if not unit:
+            return []
+        return [
+            question["id"]
+            for chapter in unit.get("chapters", [])
+            for question in chapter.get("questions", [])
+        ]
+
+    return []
+
+
+def scope_label(scope: str, target: str) -> str:
+    if scope == "chapter" and target in CHAPTERS:
+        chapter = CHAPTERS[target][1]
+        code = chapter.get("code") or chapter.get("number") or chapter.get("title")
+        return f"Chapter {code}" if code else "Chapter"
+    if scope == "unit" and str(target) in UNITS:
+        return f"Unit {UNITS[str(target)]['number']}"
+    return "All questions"
 
 
 def progress_info() -> dict[str, Any]:
@@ -421,6 +455,16 @@ def render_homework(
         return_url = request.path
         list_return_url = request.path
 
+    chapter_ids = [item["id"] for item in chapter.get("questions", [])]
+    unit_ids = scope_question_ids("unit", str(unit["number"]))
+    chapter_all_done = bool(chapter_ids) and all(
+        question_id in PROGRESS for question_id in chapter_ids
+    )
+    unit_all_done = bool(unit_ids) and all(
+        question_id in PROGRESS for question_id in unit_ids
+    )
+    show_unit_bulk = bool(unit_ids) and set(unit_ids) != set(chapter_ids)
+
     return render_template(
         "chapter.html",
         active_unit=unit["number"],
@@ -433,6 +477,9 @@ def render_homework(
         next_url=next_url,
         return_url=return_url,
         list_return_url=list_return_url,
+        chapter_all_done=chapter_all_done,
+        unit_all_done=unit_all_done,
+        show_unit_bulk=show_unit_bulk,
     )
 
 
@@ -488,6 +535,36 @@ def toggle_question(question_id: str):
             flash("Question marked complete.", "success")
         save_progress()
     return redirect(safe_next(request.form.get("next") or question_path(question, chapter)))
+
+
+@app.post("/bulk/<scope>/<target>")
+def bulk_progress(scope: str, target: str):
+    if scope not in {"chapter", "unit"}:
+        abort(404)
+
+    question_ids = scope_question_ids(scope, target)
+    if not question_ids:
+        abort(404)
+
+    label = scope_label(scope, target)
+    with PROGRESS_LOCK:
+        all_done = all(question_id in PROGRESS for question_id in question_ids)
+        if all_done:
+            PROGRESS.difference_update(question_ids)
+            flash(f"Cleared all {len(question_ids)} questions in {label}.", "info")
+        else:
+            PROGRESS.update(question_ids)
+            flash(
+                f"Marked all {len(question_ids)} questions in {label} complete.",
+                "success",
+            )
+        save_progress()
+
+    if scope == "chapter":
+        fallback = chapter_path(CHAPTERS[target][1])
+    else:
+        fallback = url_for("home")
+    return redirect(safe_next(request.form.get("next") or fallback))
 
 
 @app.route("/source/assignments.pdf")

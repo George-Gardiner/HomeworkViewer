@@ -61,6 +61,10 @@ def map_path(path: str) -> str:
         # on the page gives keyboard users the same controls.
         return "#"
 
+    bulk = re.fullmatch(r"/bulk/(?:chapter|unit)/[^/]+", path)
+    if bulk:
+        return "#"
+
     raise ValueError(f"Unmapped internal URL: {path}")
 
 
@@ -130,6 +134,20 @@ def main() -> None:
     SITE_DIR.mkdir(parents=True)
 
     # Progress seeds and question ids used by static/app.js.
+    chapter_questions = {
+        chapter["id"]: [
+            question["id"] for question in chapter.get("questions", [])
+        ]
+        for _unit, chapter in viewer.FLAT_CHAPTERS
+    }
+    unit_questions = {
+        str(unit["number"]): [
+            question["id"]
+            for chapter in unit.get("chapters", [])
+            for question in chapter.get("questions", [])
+        ]
+        for unit in viewer.DATA.get("units", [])
+    }
     progress_script = (
         "window.PROGRESS_STORAGE_KEY = "
         + js_json("bccalc-homework-progress-v1")
@@ -137,6 +155,8 @@ def main() -> None:
         + js_json(sorted(viewer.PROGRESS))
         + ";\nwindow.QUESTION_IDS = "
         + js_json([question["id"] for _, _, question in viewer.FLAT_QUESTIONS])
+        + ";\nwindow.SCOPE_QUESTIONS = "
+        + js_json({"chapter": chapter_questions, "unit": unit_questions})
         + ";\n"
     )
     (SITE_DIR / "progress.js").write_text(progress_script, encoding="utf-8")

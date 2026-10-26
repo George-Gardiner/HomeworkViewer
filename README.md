@@ -82,6 +82,12 @@ the static viewer.
 Progress is per browser. Clearing the browser's site data for the file resets
 the static viewer; the next build's `progress.json` seed is used again.
 
+Above each chapter's question list, **Complete this chapter** marks every
+question in that chapter, and **Complete Unit N** marks every question in the
+unit. Once a scope is fully complete, the same button becomes **Clear**, so it
+can be undone in one click. The optional Flask server supports the same
+actions.
+
 ### Search in the static viewer
 
 Search runs entirely in the browser across unit descriptions, chapter titles,
