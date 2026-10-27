@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>7.2 Integration by Parts · BC Calculus</title>
+  <link rel="icon" href="../static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+  <svg class="svg-defs" aria-hidden="true">
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.2 4.2L19 6.5"></path></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"></path></symbol>
+    <symbol id="i-page" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"></path><path d="M14 3v4h4M9 12h6M9 16h6"></path></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"></path></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M19 14v5H5V5h5"></path></symbol>
+  </svg>
+
+  <input class="nav-toggle" type="checkbox" id="nav-toggle" aria-label="Toggle navigation">
+
+  <header class="topbar">
+    <label class="icon-btn menu-btn" for="nav-toggle" aria-label="Open navigation">
+      <svg><use href="#i-menu"></use></svg>
+    </label>
+
+    <a class="brand" href="index.html" aria-label="Calculus homework home">
+      <span class="brand-mark">∫</span>
+      <span class="brand-text">
+        <strong>Calculus Homework</strong>
+        <span>BC Calculus · 2020–2021</span>
+      </span>
+    </a>
+
+    <form class="search" action="search.html" method="get" role="search">
+      <svg class="search-icon"><use href="#i-search"></use></svg>
+      <input id="searchInput" type="search" name="q" autocomplete="off" spellcheck="false"
+             value="" placeholder="Search units, chapters, questions…" aria-label="Search">
+      <button class="search-go" type="submit" aria-label="Search">
+        <svg><use href="#i-right"></use></svg>
+      </button>
+    </form>
+
+    <div class="topbar-right">
+      <div class="progress-chip" id="progressChip" data-progress-chip title="12 of 431 questions complete">
+        <div class="progress-track"><span style="width: 2.8%"></span></div>
+        <span data-progress-label>12 / 431</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <label class="sidebar-scrim" for="nav-toggle" aria-label="Close navigation"></label>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div>
+          <p class="eyebrow">Textbook units</p>
+          <h1>Browse homework</h1>
+        </div>
+        <label class="icon-btn sidebar-close" for="nav-toggle" aria-label="Close navigation">
+          <svg><use href="#i-close"></use></svg>
+        </label>
+      </div>
+
+      <div class="sidebar-meta">
+        <span><strong>11</strong> units</span>
+        <span><strong>431</strong> questions</span>
+        <span><strong data-sidebar-done>12</strong> done</span>
+      </div>
+
+      <nav class="unit-list" aria-label="Homework units">
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 1">
+              <span class="unit-badge">1</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 1</span>
+                <span class="unit-sub">1.1 · 1.2 · 1.3 · 1.4 · 1.5 · 1.6</span>
+              </span>
+              <span class="unit-count">35</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u1-c1.html"
+                   >
+                  <span class="chapter-code">1.1</span>
+                  <span class="chapter-name">Limits (An Intuitive Approach)</span>
+                  <span class="chapter-qcount">4</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u1-c2.html"
+                   >
+                  <span class="chapter-code">1.2</span>
+                  <span class="chapter-name">Computing Limits</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u1-c3.html"
+                   >
+                  <span class="chapter-code">1.3</span>
+                  <span class="chapter-name">Limits at Infinity; End Behavior of a Function</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u1-c4.html"
+                   >
+                  <span class="chapter-code">1.4</span>
+                  <span class="chapter-name">Limits (Discussed More Rigorously)</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u1-c5.html"
+                   >
+                  <span class="chapter-code">1.5</span>
+                  <span class="chapter-name">Continuity</span>
+                  <span class="chapter-qcount">4</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u1-c6.html"
+                   >
+                  <span class="chapter-code">1.6</span>
+                  <span class="chapter-name">Continuity of Trigonometric, Exponential, and Inverse Functions</span>
+                  <span class="chapter-qcount">4</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 2">
+              <span class="unit-badge">2</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 2</span>
+                <span class="unit-sub">2.1 · 2.2 · 2.3 · 2.4 · 2.5 · 2.6</span>
+              </span>
+              <span class="unit-count">42</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u2-c1.html"
+                   >
+                  <span class="chapter-code">2.1</span>
+                  <span class="chapter-name">Tangent Lines and Rates of Change</span>
+                  <span class="chapter-qcount">4</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u2-c2.html"
+                   >
+                  <span class="chapter-code">2.2</span>
+                  <span class="chapter-name">The Derivative Function</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u2-c3.html"
+                   >
+                  <span class="chapter-code">2.3</span>
+                  <span class="chapter-name">Introduction to Techniques of Differentiation</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u2-c4.html"
+                   >
+                  <span class="chapter-code">2.4</span>
+                  <span class="chapter-name">The Product and Quotient Rules</span>
+                  <span class="chapter-qcount">5</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u2-c5.html"
+                   >
+                  <span class="chapter-code">2.5</span>
+                  <span class="chapter-name">Derivatives of Trigonometric Functions</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u2-c6.html"
+                   >
+                  <span class="chapter-code">2.6</span>
+                  <span class="chapter-name">The Chain Rule</span>
+                  <span class="chapter-qcount">10</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 3">
+              <span class="unit-badge">3</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 3</span>
+                <span class="unit-sub">3.1 · 3.2 · 3.3 · 3.4 · 3.5 · 3.6</span>
+              </span>
+              <span class="unit-count">46</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u3-c1.html"
+                   >
+                  <span class="chapter-code">3.1</span>
+                  <span class="chapter-name">Implicit Differentiation</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u3-c2.html"
+                   >
+                  <span class="chapter-code">3.2</span>
+                  <span class="chapter-name">Derivatives of Logarithmic Functions</span>
+                  <span class="chapter-qcount">4</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u3-c3.html"
+                   >
+                  <span class="chapter-code">3.3</span>
+                  <span class="chapter-name">Derivatives of Exponential and Inverse Trigonometric Functions</span>
+                  <span class="chapter-qcount">11</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u3-c4.html"
+                   >
+                  <span class="chapter-code">3.4</span>
+                  <span class="chapter-name">Related Rates</span>
+                  <span class="chapter-qcount">7</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u3-c5.html"
+                   >
+                  <span class="chapter-code">3.5</span>
+                  <span class="chapter-name">Local Linear Approximation; Differentials</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u3-c6.html"
+                   >
+                  <span class="chapter-code">3.6</span>
+                  <span class="chapter-name">L&#39;Hôpital&#39;s Rule; Indeterminate Forms</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 4">
+              <span class="unit-badge">4</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 4</span>
+                <span class="unit-sub">4.1 · 4.2 · 4.3 · 4.4 · 4.5 · 4.6 · 4.8</span>
+              </span>
+              <span class="unit-count">39</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u4-c1.html"
+                   >
+                  <span class="chapter-code">4.1</span>
+                  <span class="chapter-name">Analysis of Functions I: Increase, Decrease, and Concavity</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u4-c2.html"
+                   >
+                  <span class="chapter-code">4.2</span>
+                  <span class="chapter-name">Analysis of Functions II: Relative Extrema; Graphing Polynomials</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u4-c3.html"
+                   >
+                  <span class="chapter-code">4.3</span>
+                  <span class="chapter-name">Analysis of Functions III: Rational Functions, Cusps, and Vertical Tangents</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u4-c4.html"
+                   >
+                  <span class="chapter-code">4.4</span>
+                  <span class="chapter-name">Absolute Maxima and Minima</span>
+                  <span class="chapter-qcount">5</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u4-c5.html"
+                   >
+                  <span class="chapter-code">4.5</span>
+                  <span class="chapter-name">Applied Maximum and Minimum Problems</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u4-c6.html"
+                   >
+                  <span class="chapter-code">4.6</span>
+                  <span class="chapter-name">Rectilinear Motion</span>
+                  <span class="chapter-qcount">4</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u4-c8.html"
+                   >
+                  <span class="chapter-code">4.8</span>
+                  <span class="chapter-name">Rolle&#39;s Theorem; Mean-Value Theorem</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 5">
+              <span class="unit-badge">5</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 5</span>
+                <span class="unit-sub">5.2 · 5.3 · 5.4 · 5.5 · 5.6 · 5.7 · 5.8 · 5.9 · 5.10</span>
+              </span>
+              <span class="unit-count">72</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c2.html"
+                   >
+                  <span class="chapter-code">5.2</span>
+                  <span class="chapter-name">The Indefinite Integral</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c3.html"
+                   >
+                  <span class="chapter-code">5.3</span>
+                  <span class="chapter-name">Integration by Substitution</span>
+                  <span class="chapter-qcount">12</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c4.html"
+                   >
+                  <span class="chapter-code">5.4</span>
+                  <span class="chapter-name">The Definition of Area as a Limit; Sigma Notation</span>
+                  <span class="chapter-qcount">7</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c5.html"
+                   >
+                  <span class="chapter-code">5.5</span>
+                  <span class="chapter-name">The Definite Integral</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c6.html"
+                   >
+                  <span class="chapter-code">5.6</span>
+                  <span class="chapter-name">The Fundamental Theorem of Calculus</span>
+                  <span class="chapter-qcount">11</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c7.html"
+                   >
+                  <span class="chapter-code">5.7</span>
+                  <span class="chapter-name">Rectilinear Motion Revisited Using Integration</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c8.html"
+                   >
+                  <span class="chapter-code">5.8</span>
+                  <span class="chapter-name">Average Value of a Function and its Applications</span>
+                  <span class="chapter-qcount">5</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c9.html"
+                   >
+                  <span class="chapter-code">5.9</span>
+                  <span class="chapter-name">Evaluating Definite Integrals by Substitution</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u5-c10.html"
+                   >
+                  <span class="chapter-code">5.10</span>
+                  <span class="chapter-name">Logarithmic and Other Functions Defined by Integrals</span>
+                  <span class="chapter-qcount">6</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 6">
+              <span class="unit-badge">6</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 6</span>
+                <span class="unit-sub">6.1 · 6.2 · 6.3 · 6.4 · 6.6</span>
+              </span>
+              <span class="unit-count">29</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u6-c1.html"
+                   >
+                  <span class="chapter-code">6.1</span>
+                  <span class="chapter-name">Area Between Two Curves</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u6-c2.html"
+                   >
+                  <span class="chapter-code">6.2</span>
+                  <span class="chapter-name">Volumes by Slicing; Disks and Washers</span>
+                  <span class="chapter-qcount">7</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u6-c3.html"
+                   >
+                  <span class="chapter-code">6.3</span>
+                  <span class="chapter-name">Volumes by Cylindrical Shells</span>
+                  <span class="chapter-qcount">5</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u6-c4.html"
+                   >
+                  <span class="chapter-code">6.4</span>
+                  <span class="chapter-name">Length of a Plane Curve</span>
+                  <span class="chapter-qcount">4</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u6-c6.html"
+                   >
+                  <span class="chapter-code">6.6</span>
+                  <span class="chapter-name">Work</span>
+                  <span class="chapter-qcount">5</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit is-current"
+                   name="units" open>
+            <summary class="unit-head" aria-label="Unit 7">
+              <span class="unit-badge">7</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 7</span>
+                <span class="unit-sub">7.2 · 7.3 · 7.5 · 7.7 · 7.8</span>
+              </span>
+              <span class="unit-count">42</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn is-active"
+                   href="chapter-u7-c2.html"
+                   aria-current="page">
+                  <span class="chapter-code">7.2</span>
+                  <span class="chapter-name">Integration by Parts</span>
+                  <span class="chapter-qcount">10</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u7-c3.html"
+                   >
+                  <span class="chapter-code">7.3</span>
+                  <span class="chapter-name">Integrating Trigonometric Functions</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u7-c5.html"
+                   >
+                  <span class="chapter-code">7.5</span>
+                  <span class="chapter-name">Integrating Rational Functions by Partial Fractions</span>
+                  <span class="chapter-qcount">7</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u7-c7.html"
+                   >
+                  <span class="chapter-code">7.7</span>
+                  <span class="chapter-name">Numerical Integration; Simpson&#39;s Rule</span>
+                  <span class="chapter-qcount">7</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u7-c8.html"
+                   >
+                  <span class="chapter-code">7.8</span>
+                  <span class="chapter-name">Improper Integrals</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 8">
+              <span class="unit-badge">8</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 8</span>
+                <span class="unit-sub">8.1 · 8.2 · 8.3</span>
+              </span>
+              <span class="unit-count">22</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u8-c1.html"
+                   >
+                  <span class="chapter-code">8.1</span>
+                  <span class="chapter-name">Modeling with Differential Equations</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u8-c2.html"
+                   >
+                  <span class="chapter-code">8.2</span>
+                  <span class="chapter-name">Separation of Variables</span>
+                  <span class="chapter-qcount">14</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u8-c3.html"
+                   >
+                  <span class="chapter-code">8.3</span>
+                  <span class="chapter-name">Slope Fields; Euler&#39;s Method</span>
+                  <span class="chapter-qcount">0</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 9">
+              <span class="unit-badge">9</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 9</span>
+                <span class="unit-sub">9.1 · 9.2 · 9.3 · 9.4 · 9.5 · 9.6 · 9.7 · 9.8 · 9.9 · 9.10</span>
+              </span>
+              <span class="unit-count">74</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c1.html"
+                   >
+                  <span class="chapter-code">9.1</span>
+                  <span class="chapter-name">Sequences</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c2.html"
+                   >
+                  <span class="chapter-code">9.2</span>
+                  <span class="chapter-name">Monotone Sequences</span>
+                  <span class="chapter-qcount">5</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c3.html"
+                   >
+                  <span class="chapter-code">9.3</span>
+                  <span class="chapter-name">Infinite Series</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c4.html"
+                   >
+                  <span class="chapter-code">9.4</span>
+                  <span class="chapter-name">Convergence Tests</span>
+                  <span class="chapter-qcount">7</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c5.html"
+                   >
+                  <span class="chapter-code">9.5</span>
+                  <span class="chapter-name">The Comparison, Ratio, and Root Tests</span>
+                  <span class="chapter-qcount">12</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c6.html"
+                   >
+                  <span class="chapter-code">9.6</span>
+                  <span class="chapter-name">Alternating Series; Absolute and Conditional Convergence</span>
+                  <span class="chapter-qcount">10</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c7.html"
+                   >
+                  <span class="chapter-code">9.7</span>
+                  <span class="chapter-name">Maclaurin and Taylor Polynomials</span>
+                  <span class="chapter-qcount">7</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c8.html"
+                   >
+                  <span class="chapter-code">9.8</span>
+                  <span class="chapter-name">Maclaurin and Taylor Series; Power Series</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c9.html"
+                   >
+                  <span class="chapter-code">9.9</span>
+                  <span class="chapter-name">Convergence of Taylor Series</span>
+                  <span class="chapter-qcount">0</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u9-c10.html"
+                   >
+                  <span class="chapter-code">9.10</span>
+                  <span class="chapter-name">Differentiating and Integrating Power Series; Modeling with Taylor Series</span>
+                  <span class="chapter-qcount">8</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 10">
+              <span class="unit-badge">10</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 10</span>
+                <span class="unit-sub">10.1 · 10.2 · 10.3</span>
+              </span>
+              <span class="unit-count">30</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u10-c1.html"
+                   >
+                  <span class="chapter-code">10.1</span>
+                  <span class="chapter-name">Parametric Equations; Tangent Lines and Arc Length for Parametric Curves</span>
+                  <span class="chapter-qcount">12</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u10-c2.html"
+                   >
+                  <span class="chapter-code">10.2</span>
+                  <span class="chapter-name">Polar Coordinates</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u10-c3.html"
+                   >
+                  <span class="chapter-code">10.3</span>
+                  <span class="chapter-name">Tangent Lines, Arc Length, and Area for Polar Curves</span>
+                  <span class="chapter-qcount">9</span>
+                </a>
+              
+            </div>
+          </details>
+        
+          <details class="unit"
+                   name="units">
+            <summary class="unit-head" aria-label="Unit 12">
+              <span class="unit-badge">12</span>
+              <span class="unit-main">
+                <span class="unit-title">Unit 12</span>
+                <span class="unit-sub">12.1 · 12.2 · 12.6</span>
+              </span>
+              <span class="unit-count">0</span>
+            </summary>
+            <div class="chapter-list">
+              
+                <a class="chapter-btn"
+                   href="chapter-u12-c1.html"
+                   >
+                  <span class="chapter-code">12.1</span>
+                  <span class="chapter-name">Introduction to Vector-Valued Functions</span>
+                  <span class="chapter-qcount">0</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u12-c2.html"
+                   >
+                  <span class="chapter-code">12.2</span>
+                  <span class="chapter-name">Calculus of Vector-Valued Functions</span>
+                  <span class="chapter-qcount">0</span>
+                </a>
+              
+                <a class="chapter-btn"
+                   href="chapter-u12-c6.html"
+                   >
+                  <span class="chapter-code">12.6</span>
+                  <span class="chapter-name">Motion Along a Curve</span>
+                  <span class="chapter-qcount">0</span>
+                </a>
+              
+            </div>
+          </details>
+        
+      </nav>
+
+      <div class="sidebar-foot">
+        <p>Questions from <em>Calculus: Early Transcendentals</em>, 10th edition.</p>
+        <div class="source-links">
+          <a href="../Assignments_for_2020-2021.pdf" target="_blank" rel="noopener">Assignment sheet</a>
+          <a href="../AP-Calc-BC_textbook_.pdf" target="_blank" rel="noopener">Textbook</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content ">
+      
+  
+  
+  
+  
+
+  <section class="questions-pane" id="questionsPane">
+    <div class="chapter-view">
+      <div class="crumbs">
+        <span>Unit 7</span>
+        <svg><use href="#i-chevron"></use></svg>
+        <span>Chapter 2</span>
+      </div>
+
+      <div class="chapter-kicker">
+        <span class="unit-kicker">Unit 7 · Chapter 2</span>
+        <span class="code-pill">7.2</span>
+      </div>
+      <h1 class="chapter-title">Integration by Parts</h1>
+      
+        <p class="book-title">Textbook: Integration by Parts</p>
+      
+
+      <div class="chapter-stats">
+        
+          <span class="stat-pill"><svg><use href="#i-page"></use></svg>p. 498</span>
+        
+        
+        <span class="stat-pill" data-chapter-progress><svg><use href="#i-check"></use></svg><span data-chapter-progress-text>0/10 done</span></span>
+      </div>
+
+      
+        <div class="bulk-bar" aria-label="Mark all questions complete">
+          <span class="bulk-bar-label">Mark all:</span>
+          
+            <form class="bulk-form" method="post"
+                  action="#"
+                  data-bulk-scope="chapter" data-bulk-target="u7-c2"
+                  data-bulk-name="this chapter">
+              <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#page-highlight">
+              <button class="bulk-btn" type="submit"
+                      title="Mark all questions in this chapter complete">
+                <svg><use href="#i-check"></use></svg>
+                <span data-bulk-label>Complete this chapter</span>
+              </button>
+            </form>
+          
+          
+            <form class="bulk-form" method="post"
+                  action="#"
+                  data-bulk-scope="unit" data-bulk-target="7"
+                  data-bulk-name="Unit 7">
+              <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#page-highlight">
+              <button class="bulk-btn" type="submit"
+                      title="Mark all questions in Unit 7 complete">
+                <svg><use href="#i-check"></use></svg>
+                <span data-bulk-label>Complete Unit 7</span>
+              </button>
+            </form>
+          
+        </div>
+      
+
+      
+        <div class="test-pill"><svg><use href="#i-spark"></use></svg><span>Test on Chapter 7</span></div>
+      
+      
+
+      
+        
+        <div class="question-list">
+          
+            
+            
+            
+              <div class="page-group-head"><span>p. —</span></div>
+              
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q7-x" data-question-id="u7-c2-p498-q7-x">
+              <a class="q-num" href="question-u7-c2-p498-q7-x.html#page-highlight">7</a>
+              <a class="q-body" href="question-u7-c2-p498-q7-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 7</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet"></span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q7-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q7-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q9-x" data-question-id="u7-c2-p498-q9-x">
+              <a class="q-num" href="question-u7-c2-p498-q9-x.html#page-highlight">9</a>
+              <a class="q-body" href="question-u7-c2-p498-q9-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 9</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet">x ln x dx  (ln x)2 dx</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q9-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q9-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q15-x" data-question-id="u7-c2-p498-q15-x">
+              <a class="q-num" href="question-u7-c2-p498-q15-x.html#page-highlight">15</a>
+              <a class="q-body" href="question-u7-c2-p498-q15-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 15</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet"> tan−1(3x) dx</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q15-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q15-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q19-x" data-question-id="u7-c2-p498-q19-x">
+              <a class="q-num" href="question-u7-c2-p498-q19-x.html#page-highlight">19</a>
+              <a class="q-body" href="question-u7-c2-p498-q19-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 19</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet"></span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q19-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q19-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q25-x" data-question-id="u7-c2-p498-q25-x">
+              <a class="q-num" href="question-u7-c2-p498-q25-x.html#page-highlight">25</a>
+              <a class="q-body" href="question-u7-c2-p498-q25-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 25</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet"> 2 xe2x dx</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q25-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q25-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q31-x" data-question-id="u7-c2-p498-q31-x">
+              <a class="q-num" href="question-u7-c2-p498-q31-x.html#page-highlight">31</a>
+              <a class="q-body" href="question-u7-c2-p498-q31-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 31</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet">ln(x + 2) dx 31. −1</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q31-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q31-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card is-active" id="q-u7-c2-p498-q35-x" data-question-id="u7-c2-p498-q35-x">
+              <a class="q-num" href="question-u7-c2-p498-q35-x.html#page-highlight">35</a>
+              <a class="q-body" href="question-u7-c2-p498-q35-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 35</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet">x sin 2x dx 0  3 √x tan−1 √x dx</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q35-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q35-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q43-x" data-question-id="u7-c2-p498-q43-x">
+              <a class="q-num" href="question-u7-c2-p498-q43-x.html#page-highlight">43</a>
+              <a class="q-body" href="question-u7-c2-p498-q43-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 43</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet">e</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q43-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q43-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+              <div class="page-group-head"><span>p. 499</span></div>
+              
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q55-x" data-question-id="u7-c2-p498-q55-x">
+              <a class="q-num" href="question-u7-c2-p498-q55-x.html#page-highlight">55</a>
+              <a class="q-body" href="question-u7-c2-p498-q55-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 55</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet">(a) Find the area of the region enclosed by y = ln x, the line x = e, and the x-axis. (b) Find the volume of the solid generated when the region in part (a) is revolved about the x-axis</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q55-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q55-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+            
+            
+            
+
+            <div class="q-card" id="q-u7-c2-p498-q57-x" data-question-id="u7-c2-p498-q57-x">
+              <a class="q-num" href="question-u7-c2-p498-q57-x.html#page-highlight">57</a>
+              <a class="q-body" href="question-u7-c2-p498-q57-x.html#page-highlight">
+                <span class="q-title-row">
+                  <span class="q-title">Question 57</span>
+                  
+                  
+                  
+                </span>
+                
+                  <span class="q-snippet">Find the volume of the solid generated when the region be- tween y = sin x and y = 0 for 0 ≤x ≤π is revolved about the y-axis</span>
+                
+              </a>
+              <form class="q-done-form" method="post" data-question-id="u7-c2-p498-q57-x" action="#">
+                <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#q-u7-c2-p498-q57-x">
+                <button class="q-done-toggle" type="submit"
+                        aria-pressed="false"
+                        aria-label="Mark complete"
+                        title="Mark complete">
+                  <svg><use href="#i-check"></use></svg>
+                </button>
+              </form>
+            </div>
+          
+        </div>
+      
+    </div>
+  </section>
+
+  <section class="viewer" aria-label="Textbook page viewer">
+    <div class="viewer-toolbar">
+      <div class="viewer-title">
+        <span class="page-pill">
+          
+            Page 0
+          
+        </span>
+        <strong>
+          
+            Question 35 · 7.2
+          
+        </strong>
+      </div>
+      <div class="viewer-actions">
+        
+          <div class="zoom-controls" id="zoomControls" hidden>
+            <button class="tool-btn zoom-step" type="button" id="zoomOut" title="Zoom out" aria-label="Zoom out">&minus;</button>
+            <button class="zoom-level" type="button" id="zoomLevel" title="Fit page width">100%</button>
+            <button class="tool-btn zoom-step" type="button" id="zoomIn" title="Zoom in" aria-label="Zoom in">+</button>
+            <span class="tool-sep"></span>
+          </div>
+        
+        
+          <a class="tool-btn" href="question-u7-c2-p498-q31-x.html#page-highlight" title="Previous question" aria-label="Previous question">
+            <svg><use href="#i-left"></use></svg>
+          </a>
+        
+        
+          <a class="tool-btn" href="question-u7-c2-p498-q43-x.html#page-highlight" title="Next question" aria-label="Next question">
+            <svg><use href="#i-right"></use></svg>
+          </a>
+        
+        
+          <span class="tool-sep"></span>
+          <a class="tool-btn" href="../static/pages/page-0521.png"
+             target="_blank" rel="noopener" title="Open the full-size page image" aria-label="Open the full-size page image">
+            <svg><use href="#i-external"></use></svg>
+          </a>
+        
+      </div>
+    </div>
+
+    
+      <div class="page-scroll" id="pageScroll">
+        <div class="page-shell">
+          <img src="../static/pages/page-0521.png"
+               width="1224" height="1476"
+               alt="Textbook page 0" loading="eager" draggable="false">
+          
+            <div class="page-highlight" id="page-highlight"
+                 style="left: 49.86278060214971%; top: 41.60305116234756%; width: 19.533334370532067%; height: 3.8175050482194273%;"></div>
+          
+          
+            <div class="page-marker"
+                 style="left: 50.02617929496017%; top: 41.60305116234756%; width: 3.5670910006255108%; height: 1.701342574949187%;"></div>
+          
+        </div>
+      </div>
+    
+
+    <div class="viewer-foot">
+      <span>
+        
+          
+            Highlighted on textbook page 0.
+          
+        
+        <span class="zoom-hint" id="zoomHint" hidden> · Pinch to zoom, double-click to fit</span>
+      </span>
+      
+        <form method="post" data-question-id="u7-c2-p498-q35-x" action="#">
+          <input type="hidden" name="next" value="/chapter/u7-c2/question/u7-c2-p498-q35-x#page-highlight">
+          <button class="done-btn" type="submit"
+                  aria-pressed="false"
+                  title="Mark complete">
+            <span class="done-box"><svg><use href="#i-check"></use></svg></span>
+            <span class="done-btn-label">Mark complete</span>
+          </button>
+        </form>
+      
+    </div>
+  </section>
+
+    </main>
+  </div>
+
+  
+    
+  
+  
+  <script src="../static/viewer.js" defer></script>
+
+<script src="progress.js"></script>
+<script src="../static/app.js"></script>
+</body>
+</html>
